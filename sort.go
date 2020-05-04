@@ -18,7 +18,22 @@ func findSmallest(array []int) int{
 }
 
 
+func selectionSort(array []int) []int {
+  sortedArray := make([]int, 0)
+  for range array {
+      smallestIndex := findSmallest(array)
+      smallest := array[smallestIndex]
+      sortedArray = append(sortedArray, smallest)
+
+      array = append(array[:smallestIndex], array[smallestIndex+1:]...)
+
+  }
+
+  return sortedArray
+}
+
+
 func main() {
   array := []int{2, 42, -234, 3, 42, 32, 10}
-  fmt.Println(findSmallest(array))
+  fmt.Println(selectionSort(array))
 }
