@@ -1,7 +1,8 @@
 package main
 
 
-import "fmt"
+import ("fmt"
+        "math/rand")
 
 
 func findSmallest(array []int) int{
@@ -33,7 +34,33 @@ func selectionSort(array []int) []int {
 }
 
 
+func quickSort(array []int) []int{
+  if len(array) >= 2 {
+    sortedArray := make([]int, 0)
+    index := rand.Intn(len(array))
+    pivot := array[index]
+    leftArray := make([]int, 0)
+    rightArray := make([]int, 0)
+
+    array = append(array[:index], array[index+1:]...)
+    for _, num := range array {
+      if num <= pivot {
+        leftArray = append(leftArray, num)
+      } else if num > pivot{
+        rightArray = append(rightArray, num)
+      }
+    }
+    sortedArray = append(quickSort(leftArray), pivot)
+    sortedArray = append(sortedArray, quickSort(rightArray)...)
+
+    return sortedArray
+  }
+
+  return array
+}
+
+
 func main() {
   array := []int{2, 42, -234, 3, 42, 32, 10}
-  fmt.Println(selectionSort(array))
+  fmt.Println(quickSort(array))
 }
