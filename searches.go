@@ -13,9 +13,31 @@ func simpleSearch(array []int, item int) int {
 }
 
 
+func binarySearch(array []int, item int) int {
+  lowIndex := 0
+
+
+  highIndex := len(array) - 1
+
+  for lowIndex <= highIndex {
+    midIndex := (lowIndex + highIndex) / 2
+
+    if array[midIndex] == item {
+      return midIndex
+    } else if item < array[midIndex] {
+      highIndex = midIndex - 1
+    } else if item > array[midIndex] {
+      lowIndex = midIndex + 1
+    }
+
+  }
+  return -1
+}
+
+
 func main() {
   array := []int{2, 3, 5, 8, 10, 15, 22}
 
-  fmt.Println(simpleSearch(array, 5))
+  fmt.Println(binarySearch(array, 5))
 
 }
