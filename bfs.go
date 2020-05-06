@@ -28,11 +28,12 @@ func isPersonSeller(name string) bool {
 func search(q *Queue, graph map[string][]string) bool {
   for len(*q) != 0 {
     person := (*q).popLeft()
-    if !isPersonSeller(person) {
+    if isPersonSeller(person) {
+      fmt.Println(person, "is a mango seller")
+      return true
+    } else {
       (*q).addToQueue(graph[person])
     }
-    fmt.Println(person, "is a mango seller")
-    return true
   }
 
   return false
