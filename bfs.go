@@ -4,9 +4,6 @@ package main
 import "fmt"
 
 
-var graph = make(map[string][]string)
-
-
 //Queue implementation
 type Queue []string
 
@@ -28,7 +25,7 @@ func isPersonSeller(name string) bool {
 }
 
 
-func search(q *Queue) bool {
+func search(q *Queue, graph map[string][]string) bool {
   for len(*q) != 0 {
     person := (*q).popLeft()
     if !isPersonSeller(person) {
@@ -43,6 +40,7 @@ func search(q *Queue) bool {
 
 
 func main() {
+  var graph = make(map[string][]string)
   graph["you"] = []string{"alice", "bob", "claire"}
   graph["alice"] = []string{"peggy"}
   graph["bob"] = []string{"anuj", "peggy"}
@@ -51,5 +49,5 @@ func main() {
   var queue Queue
   queue = graph["you"]
 
-  search(&queue)
+  search(&queue, graph)
 }
