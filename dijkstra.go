@@ -5,16 +5,49 @@ import ("fmt";
         "math")
 
 
-func find_lowest_cost_node(costs map[string]float64, processed []string) string{
-  lowest_cost:= math.Inf(1)
+func stringInSlice(processed []string, node string) bool {
+  for _, n := range processed {
+    if n == node {
+      return true
+    }
+  }
+  return false
+}
+
+
+func findLowestCostNode(costs map[string]float64, processed []string) string{
+  lowest_cost := math.Inf(1)
   var lowest_cost_node string
   for node, cost := range costs{
-    if cost < lowest_cost {
+    if cost < lowest_cost && !stringInSlice(processed, node) {
       lowest_cost = cost
       lowest_cost_node = node
     }
   }
   return lowest_cost_node
+}
+
+
+func search(graph map[string]map[string]float64, costs map[string]float64,
+            parents map[string]string, processed []string) (map[string]string, map[string]float64) {
+    node := findLowestCostNode(costs, processed)
+
+    for node != "" {
+      cost := costs[node]
+      neighbours := graph[node]
+
+      for n, c := range neighbours {
+        new_cost := cost + c
+        if costs[n] > new_cost {
+          costs[n] = new_cost
+          parents[n] = node
+        }
+      }
+      processed = append(processed, node)
+      node = findLowestCostNode(costs, processed)
+    }
+
+    return parents, costs
 }
 
 
@@ -28,6 +61,7 @@ func main() {
   graph["a"]["fin"] = 1
 
   graph["b"] = map[string]float64{}
+  graph["b"]["a"] = 3
   graph["b"]["fin"] = 5
 
   graph["fin"] = map[string]float64{}
@@ -43,5 +77,6 @@ func main() {
 
   processed := make([]string, 0)
 
-  fmt.Println(find_lowest_cost_node(costs, processed))
+  parents, costs = search(graph, costs, parents, processed)
+  fmt.Println("Minimal path to fin is:", costs["fin"])
 }
