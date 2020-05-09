@@ -51,6 +51,16 @@ func search(graph map[string]map[string]float64, costs map[string]float64,
 }
 
 
+func reverseSlice(s []string) []string{
+  reversedSlice := make([]string, 0)
+  for i := len(s) - 1; i >= 0; i-- {
+    reversedSlice = append(reversedSlice, s[i])
+  }
+
+  return reversedSlice
+}
+
+
 func findPath(parents map[string]string) []string{
   last_node := "fin"
   path := make([]string, 0)
@@ -59,7 +69,7 @@ func findPath(parents map[string]string) []string{
     path = append(path, last_node)
     last_node = parents[last_node]
   }
-  return path
+  return reverseSlice(path)
 }
 
 
@@ -91,5 +101,5 @@ func main() {
 
   parents, costs = search(graph, costs, parents, processed)
   fmt.Println("Minimal path to fin is:", costs["fin"])
-  fmt.Println(findPath(parents))
+  fmt.Println("Path:", findPath(parents))
 }
