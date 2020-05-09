@@ -5,9 +5,20 @@ import ("fmt";
         "math")
 
 
-func main() {
-  infinity := math.Inf(1)
+func find_lowest_cost_node(costs map[string]float64, processed []string) string{
+  lowest_cost:= math.Inf(1)
+  var lowest_cost_node string
+  for node, cost := range costs{
+    if cost < lowest_cost {
+      lowest_cost = cost
+      lowest_cost_node = node
+    }
+  }
+  return lowest_cost_node
+}
 
+
+func main() {
   var graph = map[string]map[string]float64{}
   graph["start"] = map[string]float64{}
   graph["start"]["a"] = 6
@@ -24,7 +35,7 @@ func main() {
   var costs = map[string]float64{}
   costs["a"] = 6
   costs["b"] = 2
-  costs["fin"] = infinity
+  costs["fin"] = math.Inf(1)
 
   var parents = map[string]string{}
   parents["a"] = "start"
@@ -32,5 +43,5 @@ func main() {
 
   processed := make([]string, 0)
 
-  fmt.Println(processed)
+  fmt.Println(find_lowest_cost_node(costs, processed))
 }
