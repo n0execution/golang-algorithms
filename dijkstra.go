@@ -26,5 +26,11 @@ func main() {
   costs["b"] = 2
   costs["fin"] = infinity
 
-  fmt.Println(costs)
+  var parents = map[string]string{}
+  parents["a"] = "start"
+  parents["b"] = "start"
+
+  processed := make([]string, 0)
+
+  fmt.Println(processed)
 }
