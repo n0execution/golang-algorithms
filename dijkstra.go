@@ -51,6 +51,18 @@ func search(graph map[string]map[string]float64, costs map[string]float64,
 }
 
 
+func findPath(parents map[string]string) []string{
+  last_node := "fin"
+  path := make([]string, 0)
+
+  for last_node != "" {
+    path = append(path, last_node)
+    last_node = parents[last_node]
+  }
+  return path
+}
+
+
 func main() {
   var graph = map[string]map[string]float64{}
   graph["start"] = map[string]float64{}
@@ -79,4 +91,5 @@ func main() {
 
   parents, costs = search(graph, costs, parents, processed)
   fmt.Println("Minimal path to fin is:", costs["fin"])
+  fmt.Println(findPath(parents))
 }
