@@ -39,6 +39,15 @@ func intersection(set1 Set, set2 Set) Set{
 }
 
 
+func difference(set1 Set, set2 Set) Set {
+    for item := range set2 {
+        delete(set1, item)
+      }
+
+    return set1
+}
+
+
 func main() {
     statesList := []string{"mt", "wa", "or", "id", "nv", "ut", "ca", "az"}
     statesNeeded := inititalizeSet(statesList)
@@ -57,5 +66,5 @@ func main() {
     var finalStations = Set{}
     fmt.Println(finalStations)
 
-    fmt.Println(intersection(stations["kone"], stations["kfour"]))
+    fmt.Println(difference(statesNeeded, stations["kone"]))
 }
