@@ -48,11 +48,32 @@ func difference(set1 Set, set2 Set) Set {
 }
 
 
+func search(statesNeeded Set, stations map[string]Set) Set {
+  var finalStations = Set{}
+
+  for len(statesNeeded) > 0 {
+    var bestStation = ""
+    var statesCovered = Set{}
+
+    for station, states := range stations {
+      covered := intersection(statesNeeded, states)
+
+      if len(covered) > len(statesCovered) {
+        bestStation = station
+        statesCovered = covered
+      }
+    }
+    statesNeeded = difference(statesNeeded, statesCovered)
+    finalStations[bestStation] = true
+  }
+
+  return finalStations
+}
+
+
 func main() {
     statesList := []string{"mt", "wa", "or", "id", "nv", "ut", "ca", "az"}
     statesNeeded := inititalizeSet(statesList)
-
-    fmt.Println(statesNeeded)
 
     var stations = map[string]Set{}
     stations["kone"] = inititalizeSet([]string{"id", "nv", "ut"})
@@ -61,10 +82,5 @@ func main() {
     stations["kfour"] = inititalizeSet([]string{"nv", "ut"})
     stations["kfive"] = inititalizeSet([]string{"ca", "az"})
 
-    fmt.Println(stations)
-
-    var finalStations = Set{}
-    fmt.Println(finalStations)
-
-    fmt.Println(difference(statesNeeded, stations["kone"]))
+    fmt.Println(search(statesNeeded, stations))
 }
